@@ -23,7 +23,7 @@ import { Address } from './address';
  *  - Model
  *     - costumer.ts (get, set) -> conforme o ORM
  */
-class Customer {
+export class Customer {
   _id: string;
   _name: string;
   _address!: Address;
