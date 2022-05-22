@@ -1,6 +1,6 @@
 import { OrderItem } from './OrderItem';
 
-class Order {
+export class Order {
   _id: string;
   _customer_id: string;
   _items: OrderItem[];
