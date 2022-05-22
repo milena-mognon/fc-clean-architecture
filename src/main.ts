@@ -14,8 +14,8 @@ custumer.activate();
 //
 
 // Isso é um agregado (Order e OrderItems)
-const item1 = new OrderItem('1', 'Produto 1', 100);
-const item2 = new OrderItem('2', 'Produto 2', 200);
+const item1 = new OrderItem('1', 'Produto 1', 100, 'p1', 100);
+const item2 = new OrderItem('2', 'Produto 2', 200, 'p2', 200);
 
 const order = new Order('1', '123', [item1, item2]);
 //
