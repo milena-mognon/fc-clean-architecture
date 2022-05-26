@@ -30,3 +30,7 @@ Order (Entity) (Não consegue existir sem um Customer)
 Item (Entity) (Só existe pq a Order existe)
 
 <!-- ------------------------------------------------------------------------ -->
+
+## Repositories
+
+Cada agregado tem um repositorio. Relação de um para um entre agregado e repositório
