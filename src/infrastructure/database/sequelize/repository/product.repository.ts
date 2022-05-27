@@ -1,5 +1,5 @@
 import { Product } from '../../../../domain/entity/Product';
-import { ProductRepositoryInterface } from '../../../../domain/repository/product-repository.interface';
+import { ProductRepositoryInterface } from '../../../../domain/repository/product.repository.interface';
 import { ProductModel } from '../model/product.model';
 
 export class ProductRepository implements ProductRepositoryInterface {

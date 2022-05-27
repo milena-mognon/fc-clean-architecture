@@ -29,7 +29,7 @@ describe('custumer unit test', () => {
     // arrange
     let customer = new Customer('123', 'Customer 1');
     const address = new Address('Rua XXXX', 123, '88888-88', 'Guarapuava');
-    customer.address = address;
+    customer.changeAddress(address);
 
     //act
     customer.activate();
