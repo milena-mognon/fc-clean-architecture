@@ -31,6 +31,10 @@ export class Product {
     this._name = name;
   }
 
+  get id(): string {
+    return this._id;
+  }
+
   get name(): string {
     return this._name;
   }
