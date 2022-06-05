@@ -1,86 +1,39 @@
-import { Address } from '../../../../domain/entity/address';
-import { Customer } from '../../../../domain/entity/customer';
-import { CustomerRepositoryInterface } from '../../../../domain/repository/customer.repository.interface';
-import { CustomerModel } from '../model/customer.model';
+import { Order } from '../../../../domain/entity/Order';
+import { OrderItemModel } from '../model/order-item.model';
+import { OrderModel } from '../model/order.model';
 
 /**
  * O maior cuidado que deve ser tomado no repositorio
  * é a forma como o objeto vai ser montado novamente.
  */
-export class CustomerRepository implements CustomerRepositoryInterface {
-  async create(entity: Customer): Promise<void> {
-    await CustomerModel.create({
-      id: entity.id,
-      name: entity.name,
-      street: entity.address.street,
-      number: entity.address.number,
-      zipcode: entity.address.zip,
-      city: entity.address.city,
-      active: entity.isActive(),
-      rewardPoints: entity.rewardPoints,
-    });
-  }
-
-  async update(entity: Customer): Promise<void> {
-    await CustomerModel.update(
+export class OrderRepository {
+  async create(entity: Order): Promise<void> {
+    await OrderModel.create(
       {
-        name: entity.name,
-        street: entity.address.street,
-        number: entity.address.number,
-        zipcode: entity.address.zip,
-        city: entity.address.city,
-        active: entity.isActive(),
-        rewardPoints: entity.rewardPoints,
+        id: entity.id,
+        customer_id: entity.customer_id,
+        total: entity.total(),
+        items: entity.items.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          product_id: item.product_id,
+        })),
       },
-      { where: { id: entity.id } },
+      { include: [{ model: OrderItemModel }] },
     );
   }
 
-  async find(id: string): Promise<Customer> {
-    let customerModel;
-    try {
-      customerModel = await CustomerModel.findOne({
-        where: { id },
-        rejectOnEmpty: true,
-      });
-    } catch (error) {
-      throw new Error('Customer not found');
-    }
-    const customer = new Customer(id, customerModel.name);
-    const address = new Address(
-      customerModel.street,
-      customerModel.number,
-      customerModel.zipcode,
-      customerModel.city,
-    );
+  // async update(entity: Customer): Promise<void> {
 
-    customer.changeAddress(address);
+  // }
 
-    return customer;
-  }
+  // async find(id: string): Promise<Customer> {
 
-  async findAll(): Promise<Customer[]> {
-    const customerModels = await CustomerModel.findAll();
+  // }
 
-    const customers = customerModels.map(customerModel => {
-      let customer = new Customer(customerModel.id, customerModel.name);
-      customer.addRewardPoints(customerModel.rewardPoints);
-      let address = new Address(
-        customerModel.street,
-        customerModel.number,
-        customerModel.zipcode,
-        customerModel.city,
-      );
+  // async findAll(): Promise<Customer[]> {
 
-      customer.changeAddress(address);
-
-      if (customerModel.active) {
-        customer.activate();
-      }
-
-      return customer;
-    });
-
-    return customers;
-  }
+  // }
 }

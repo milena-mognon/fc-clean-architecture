@@ -3,10 +3,10 @@ export class Product {
   private _name: string;
   private _price: number;
 
-  constructor(id: string, _name: string, _price: number) {
+  constructor(id: string, name: string, price: number) {
     this._id = id;
-    this._name = _name;
-    this._price = _price;
+    this._name = name;
+    this._price = price;
     this.validate();
   }
 
