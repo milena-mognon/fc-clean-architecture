@@ -84,4 +84,45 @@ describe('Order Repository test', () => {
       ],
     });
   });
+
+  it('should find an Order', async () => {
+    const customerRepository = new CustomerRepository();
+
+    const customer = new Customer('c1', 'Customer 1');
+    const address = new Address('Street 1', 1, 'Zipcode 1', 'City 1');
+    customer.changeAddress(address);
+
+    await customerRepository.create(customer);
+
+    const productRepository = new ProductRepository();
+
+    const product = new Product('p1', 'Product 1', 10);
+
+    await productRepository.create(product);
+
+    const orderItem = new OrderItem(
+      'oi1',
+      product.name,
+      product.price,
+      product.id,
+      2,
+    );
+
+    const order = new Order('o1', 'c1', [orderItem]);
+    const orderRepository = new OrderRepository();
+
+    await orderRepository.create(order);
+
+    const foundOrder = await orderRepository.find('o1');
+
+    expect(order).toStrictEqual(foundOrder);
+  });
+
+  it('should throw an error when order is not found', () => {
+    const orderRepository = new OrderRepository();
+
+    expect(async () => {
+      await orderRepository.find('43562');
+    }).rejects.toThrow('Order not found');
+  });
 });

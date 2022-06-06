@@ -1,4 +1,6 @@
 import { Order } from '../../../../domain/entity/Order';
+import { OrderItem } from '../../../../domain/entity/OrderItem';
+import { OrderRepositoryInterface } from '../../../../domain/repository/order.repository.interface';
 import { OrderItemModel } from '../model/order-item.model';
 import { OrderModel } from '../model/order.model';
 
@@ -6,7 +8,7 @@ import { OrderModel } from '../model/order.model';
  * O maior cuidado que deve ser tomado no repositorio
  * é a forma como o objeto vai ser montado novamente.
  */
-export class OrderRepository {
+export class OrderRepository implements OrderRepositoryInterface {
   async create(entity: Order): Promise<void> {
     await OrderModel.create(
       {
@@ -25,15 +27,38 @@ export class OrderRepository {
     );
   }
 
-  // async update(entity: Customer): Promise<void> {
+  update(entity: Order): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 
-  // }
+  async find(id: string): Promise<Order> {
+    let orderModel;
+    try {
+      orderModel = await OrderModel.findOne({
+        where: { id },
+        rejectOnEmpty: true,
+        include: ['items'],
+      });
+    } catch (error) {
+      throw new Error('Order not found');
+    }
 
-  // async find(id: string): Promise<Customer> {
+    const items = orderModel.items.map(item => {
+      return new OrderItem(
+        item.id,
+        item.name,
+        item.price,
+        item.product_id,
+        item.quantity,
+      );
+    });
 
-  // }
+    const order = new Order(id, orderModel.customer_id, items);
 
-  // async findAll(): Promise<Customer[]> {
+    return order;
+  }
 
-  // }
+  findAll(): Promise<Order[]> {
+    throw new Error('Method not implemented.');
+  }
 }

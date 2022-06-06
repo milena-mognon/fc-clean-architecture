@@ -43,6 +43,10 @@ export class OrderItem {
   }
 
   get price(): number {
+    return this._price;
+  }
+
+  subTotal(): number {
     return this._price * this._quantity;
   }
 }
