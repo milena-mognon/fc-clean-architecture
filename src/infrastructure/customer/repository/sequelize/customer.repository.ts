@@ -1,7 +1,7 @@
-import { Address } from '../../../../domain/entity/address';
-import { Customer } from '../../../../domain/entity/customer';
-import { CustomerRepositoryInterface } from '../../../../domain/repository/customer.repository.interface';
-import { CustomerModel } from '../model/customer.model';
+import { Address } from '../../../../domain/customer/value-object/address';
+import { CustomerRepositoryInterface } from '../../../../domain/customer/repository/customer.repository.interface';
+import { Customer } from '../../../../domain/customer/entity/customer';
+import { CustomerModel } from './models/customer.model';
 
 /**
  * O maior cuidado que deve ser tomado no repositorio

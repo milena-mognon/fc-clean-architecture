@@ -1,8 +1,8 @@
 import { Order } from '../../../../domain/checkout/entity/Order';
-import { OrderItem } from '../../../../domain/entity/OrderItem';
+import { OrderItem } from '../../../../domain/checkout/entity/OrderItem';
 import { OrderRepositoryInterface } from '../../../../domain/checkout/repository/order.repository.interface';
-import { OrderItemModel } from '../model/order-item.model';
-import { OrderModel } from '../model/order.model';
+import { OrderItemModel } from './models/order-item.model';
+import { OrderModel } from './models/order.model';
 
 /**
  * O maior cuidado que deve ser tomado no repositorio
