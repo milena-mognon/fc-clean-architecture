@@ -27,8 +27,30 @@ export class OrderRepository implements OrderRepositoryInterface {
     );
   }
 
-  update(entity: Order): Promise<void> {
-    throw new Error('Method not implemented.');
+  async update(entity: Order): Promise<void> {
+    // monta os itens do pedido
+    const ordemItems = entity.items.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      product_id: item.product_id,
+      quantity: item.quantity,
+      order_id: entity.id,
+    }));
+
+    // deleta os itens existentes
+    await OrderItemModel.destroy({
+      where: { order_id: entity.id },
+    });
+
+    // cria os itens atualizados
+    await OrderItemModel.bulkCreate(ordemItems);
+
+    // atualiza o total do pedido
+    await OrderModel.update(
+      { total: entity.total() },
+      { where: { id: entity.id } },
+    );
   }
 
   async find(id: string): Promise<Order> {
@@ -58,7 +80,32 @@ export class OrderRepository implements OrderRepositoryInterface {
     return order;
   }
 
-  findAll(): Promise<Order[]> {
-    throw new Error('Method not implemented.');
+  async findAll(): Promise<Order[]> {
+    let orderModel;
+    try {
+      orderModel = await OrderModel.findAll({
+        include: ['items'],
+      });
+    } catch (error) {
+      throw new Error('Order not found');
+    }
+
+    const orders = orderModel.map(order => {
+      console.log(order);
+
+      const items = order.items.map(item => {
+        return new OrderItem(
+          item.id,
+          item.name,
+          item.price,
+          item.product_id,
+          item.quantity,
+        );
+      });
+
+      return new Order(order.id, order.customer_id, items);
+    });
+
+    return orders;
   }
 }

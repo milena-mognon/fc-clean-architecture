@@ -125,4 +125,82 @@ describe('Order Repository test', () => {
       await orderRepository.find('43562');
     }).rejects.toThrow('Order not found');
   });
+
+  it('should find all Orders', async () => {
+    const customerRepository = new CustomerRepository();
+
+    const customer = new Customer('c1', 'Customer 1');
+    const address = new Address('Street 1', 1, 'Zipcode 1', 'City 1');
+    customer.changeAddress(address);
+
+    await customerRepository.create(customer);
+
+    const productRepository = new ProductRepository();
+
+    const product = new Product('p1', 'Product 1', 10);
+
+    await productRepository.create(product);
+
+    const orderItem = new OrderItem(
+      'oi1',
+      product.name,
+      product.price,
+      product.id,
+      2,
+    );
+
+    const orderRepository = new OrderRepository();
+
+    const order1 = new Order('o1', 'c1', [orderItem]);
+    await orderRepository.create(order1);
+
+    const orders = await orderRepository.findAll();
+
+    expect(orders.length).toBe(1);
+  });
+
+  it('should update an Order', async () => {
+    const customerRepository = new CustomerRepository();
+
+    const customer = new Customer('c1', 'Customer 1');
+    const address = new Address('Street 1', 1, 'Zipcode 1', 'City 1');
+    customer.changeAddress(address);
+
+    await customerRepository.create(customer);
+
+    const productRepository = new ProductRepository();
+
+    const product = new Product('p1', 'Product 1', 10);
+
+    await productRepository.create(product);
+
+    const orderItem = new OrderItem(
+      'oi1',
+      product.name,
+      product.price,
+      product.id,
+      2,
+    );
+    const orderItem2 = new OrderItem(
+      'oi2',
+      product.name,
+      product.price,
+      product.id,
+      2,
+    );
+
+    const order = new Order('o1', 'c1', [orderItem]);
+    const orderRepository = new OrderRepository();
+
+    await orderRepository.create(order);
+
+    const order_to_update = new Order('o1', 'c1', [orderItem, orderItem2]);
+
+    await orderRepository.update(order_to_update);
+
+    const foundOrder = await orderRepository.find('o1');
+
+    expect(foundOrder.total()).toBe(40);
+    expect(foundOrder.items.length).toBe(2);
+  });
 });
