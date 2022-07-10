@@ -91,8 +91,6 @@ export class OrderRepository implements OrderRepositoryInterface {
     }
 
     const orders = orderModel.map(order => {
-      console.log(order);
-
       const items = order.items.map(item => {
         return new OrderItem(
           item.id,

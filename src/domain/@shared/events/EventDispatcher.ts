@@ -12,8 +12,6 @@ export class EventDispatcher implements EventDispatcherInterface {
   notify(event: EventInterface): void {
     const eventName = event.constructor.name;
 
-    console.log(eventName);
-
     if (this.eventHandlers[eventName]) {
       this.eventHandlers[eventName].forEach(eventHandler => {
         eventHandler.handle(event);
