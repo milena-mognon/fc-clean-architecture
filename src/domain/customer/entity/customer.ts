@@ -1,4 +1,4 @@
-import { Address } from './address';
+import { Address } from '../value-object/address';
 
 /**
  * Quando pensamos em motivo para mudança, normalmente estamos pensando em regras de negócio

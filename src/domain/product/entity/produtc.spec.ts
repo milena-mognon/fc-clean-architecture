@@ -1,5 +1,3 @@
-import { Order } from './Order';
-import { OrderItem } from './OrderItem';
 import { Product } from './Product';
 
 describe('Product unit test', () => {
