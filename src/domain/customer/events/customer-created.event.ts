@@ -1,4 +1,4 @@
-import { EventInterface } from '../event.interface';
+import { EventInterface } from '../../@shared/events/event.interface';
 
 /**
  * Todos os eventos devem implementar EventInterface
