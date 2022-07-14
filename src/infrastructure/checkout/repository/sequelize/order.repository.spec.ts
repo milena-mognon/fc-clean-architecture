@@ -194,9 +194,9 @@ describe('Order Repository test', () => {
 
     await orderRepository.create(order);
 
-    const order_to_update = new Order('o1', 'c1', [orderItem, orderItem2]);
+    order.addItem(orderItem2);
 
-    await orderRepository.update(order_to_update);
+    await orderRepository.update(order);
 
     const foundOrder = await orderRepository.find('o1');
 

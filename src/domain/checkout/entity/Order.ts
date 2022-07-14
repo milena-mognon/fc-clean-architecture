@@ -46,4 +46,8 @@ export class Order {
 
     return true;
   }
+
+  addItem(item: OrderItem) {
+    return this.items.push(item);
+  }
 }
