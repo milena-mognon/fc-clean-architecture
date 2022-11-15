@@ -1,5 +1,6 @@
 import { CustomerFactory } from '../../../domain/customer/factory/customer.factory';
 import { Address } from '../../../domain/customer/value-object/address';
+import { UpdateCustomerUseCase } from './update.customer.usecase';
 
 const customer = CustomerFactory.createWithAddress(
   'Jane Doe',
@@ -20,9 +21,9 @@ const input = {
 const MockRepository = () => {
   // faz um Mock (simula) um repositório
   return {
-    find: jest.fn(),
+    find: jest.fn().mockReturnValue(Promise.resolve(customer)), // para fazer o update é preciso verificar se ele existe, portanto é oreciso ter o método find implementado (no caso do mock "simulado")
     findAll: jest.fn(),
-    create: jest.fn().mockReturnValue(Promise.resolve(customer)), // para fazer o update é preciso verificar se ele existe, portanto é oreciso ter o método find implementado (no caso do mock "simulado")
+    create: jest.fn(),
     update: jest.fn(), // .mockReturnValue(Promise.resolve(input)), // é esse input que o repositorio precisa retornar após a atualização. No nosso caso, como o update retorna void ele não será utilizado assim
   };
 };
