@@ -1,4 +1,4 @@
-export interface InputFindCutomerDto {
+export interface InputFindCustomerDto {
   id: string;
 }
 

@@ -1,6 +1,6 @@
 import { CustomerRepositoryInterface } from '../../../domain/customer/repository/customer.repository.interface';
 import {
-  InputFindCutomerDto,
+  InputFindCustomerDto,
   OutputFindCustomerDto,
 } from './find.customer.dto';
 
@@ -11,7 +11,7 @@ export class FindCustomerUseCase {
     this.customerRepository = customerRepository;
   }
 
-  async execute(input: InputFindCutomerDto): Promise<OutputFindCustomerDto> {
+  async execute(input: InputFindCustomerDto): Promise<OutputFindCustomerDto> {
     const customer = await this.customerRepository.find(input.id);
 
     return {

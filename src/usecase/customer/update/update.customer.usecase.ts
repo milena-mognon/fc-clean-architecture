@@ -1,7 +1,7 @@
 import { CustomerRepositoryInterface } from '../../../domain/customer/repository/customer.repository.interface';
 import { Address } from '../../../domain/customer/value-object/address';
 import {
-  InputUpdateCutomerDto,
+  InputUpdateCustomerDto,
   OutputUpdateCustomerDto,
 } from './update.customer.dto';
 
@@ -13,7 +13,7 @@ export class UpdateCustomerUseCase {
   }
 
   async execute(
-    input: InputUpdateCutomerDto,
+    input: InputUpdateCustomerDto,
   ): Promise<OutputUpdateCustomerDto> {
     const customer = await this.customerRepository.find(input.id);
 
