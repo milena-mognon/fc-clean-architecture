@@ -4,7 +4,11 @@ import { ProductInterface } from '../entity/product.interface';
 import { ProductB } from '../entity/ProductB';
 
 export class ProductFactory {
-  public static create(type: string, name: string, price: number): Product {
+  public static create(
+    type: string,
+    name: string,
+    price: number,
+  ): ProductInterface {
     switch (type) {
       case 'A':
         return new Product(uuid(), name, price);
