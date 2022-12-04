@@ -86,4 +86,30 @@ describe('End 2 End test for customer', () => {
     expect(customers[1].address.number).toBe(customer2.address.number);
     expect(customers[1].address.zip).toBe(customer2.address.zip);
   });
+
+  it('should find a customer', async () => {
+    const response = await request(app)
+      .post('/customer')
+      .send({
+        name: 'Jane Doe',
+        address: {
+          street: 'Street 1',
+          city: 'City 1',
+          number: 123,
+          zip: '12345',
+        },
+      });
+    expect(response.status).toBe(200);
+
+    const customer1 = response.body;
+
+    const response2 = await request(app).get(`/customer/${customer1.id}`);
+
+    expect(response2.status).toBe(200);
+    expect(response2.body.name).toBe(customer1.name);
+    expect(response2.body.address.street).toBe(customer1.address.street);
+    expect(response2.body.address.city).toBe(customer1.address.city);
+    expect(response2.body.address.number).toBe(customer1.address.number);
+    expect(response2.body.address.zip).toBe(customer1.address.zip);
+  });
 });
