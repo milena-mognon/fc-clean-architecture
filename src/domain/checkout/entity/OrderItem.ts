@@ -1,5 +1,6 @@
-export class OrderItem {
-  private _id: string;
+import Entity from '../../@shared/entity/entity.abstract';
+
+export class OrderItem extends Entity {
   private _product_id: string;
   private _name: string;
   private _price: number;
@@ -12,6 +13,7 @@ export class OrderItem {
     product_id: string,
     quantity: number,
   ) {
+    super();
     this._id = id;
     this._name = name;
     this._price = price;
@@ -33,7 +35,10 @@ export class OrderItem {
 
   validate() {
     if (this._quantity <= 0) {
-      throw new Error('Item quantity must be greater than 0');
+      this.notification.addError({
+        message: 'Item quantity must be greater than 0',
+        context: 'order_item',
+      });
     }
     return true;
   }
