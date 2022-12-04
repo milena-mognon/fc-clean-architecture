@@ -2,6 +2,7 @@ import express from 'express';
 import { Sequelize } from 'sequelize-typescript';
 import { CustomerModel } from '../customer/repository/sequelize/models/customer.model';
 import { customerRoutes } from './routes/customer.routes';
+import { productRoutes } from './routes/product.routes';
 
 export const app = express();
 
@@ -24,3 +25,4 @@ async function setupDb() {
 setupDb();
 
 app.use('/customer', customerRoutes);
+app.use('/product', productRoutes);
