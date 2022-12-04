@@ -57,4 +57,21 @@ describe('End 2 End test for product', () => {
     expect(products[1].name).toBe(product2.name);
     expect(products[1].price).toBe(product2.price);
   });
+
+  it('should not list all products', async () => {
+    const response1 = await request(app).post('/product').send({
+      type: 'A',
+      name: 'Product 1',
+      price: 10,
+    });
+    expect(response1.status).toBe(200);
+
+    const product1 = response1.body;
+
+    const response2 = await request(app).get(`/product/${product1.id}`);
+
+    expect(response2.status).toBe(200);
+    expect(response2.body.name).toBe(product1.name);
+    expect(response2.body.price).toBe(product1.price);
+  });
 });
