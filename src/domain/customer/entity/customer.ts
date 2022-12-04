@@ -1,3 +1,4 @@
+import Entity from '../../@shared/entity/entity.abstract';
 import { Address } from '../value-object/address';
 
 /**
@@ -23,21 +24,21 @@ import { Address } from '../value-object/address';
  *  - Model
  *     - costumer.ts (get, set) -> conforme o ORM
  */
-export class Customer {
-  private _id: string;
+export class Customer extends Entity {
   private _name: string;
   private _address!: Address;
   private _active: boolean = true;
   private _rewardPoints: number = 0;
 
   constructor(id: string, name: string) {
-    this._id = id;
+    super();
+    this.id = id;
     this._name = name;
     this.validate(); // garante a validação
-  }
 
-  get id(): string {
-    return this._id;
+    if (this.notification.hasErrors()) {
+      throw new Error(this.notification.messages('customer'));
+    }
   }
 
   get name(): string {
@@ -57,11 +58,17 @@ export class Customer {
   }
 
   validate() {
-    if (this._id.length === 0) {
-      throw new Error('Id is required');
+    if (this.id.length === 0) {
+      this.notification.addError({
+        message: 'Id is required',
+        context: 'customer',
+      });
     }
     if (this._name.length === 0) {
-      throw new Error('Name is required');
+      this.notification.addError({
+        message: 'Name is required',
+        context: 'customer',
+      });
     }
   }
 
