@@ -25,7 +25,7 @@ describe('End 2 End test for customer', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.name).toBe('Jane Doe');
-    expect(response.body.name.address.street).toBe('Street 1');
+    expect(response.body.address.street).toBe('Street 1');
     expect(response.body.address.city).toBe('City 1');
     expect(response.body.address.number).toBe(123);
     expect(response.body.address.zip).toBe('12345');
