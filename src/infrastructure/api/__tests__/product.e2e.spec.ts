@@ -12,6 +12,7 @@ describe('End 2 End test for product', () => {
 
   it('should create a product', async () => {
     const response = await request(app).post('/product').send({
+      type: 'A',
       name: 'Product 1',
       price: 10,
     });
@@ -19,5 +20,13 @@ describe('End 2 End test for product', () => {
     expect(response.status).toBe(200);
     expect(response.body.name).toBe('Product 1');
     expect(response.body.price).toBe(10);
+  });
+
+  it('should not create a product', async () => {
+    const response = await request(app).post('/product').send({
+      name: 'John Doe',
+    });
+
+    expect(response.status).toBe(500);
   });
 });

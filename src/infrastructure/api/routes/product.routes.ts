@@ -21,6 +21,6 @@ productRoutes.post('/', async (request, response) => {
 
     response.send(output);
   } catch (error) {
-    response.status(500).send();
+    response.status(500).send(error);
   }
 });
