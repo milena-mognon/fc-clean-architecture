@@ -66,7 +66,7 @@ describe('End 2 End test for customer', () => {
       });
     expect(response2.status).toBe(200);
 
-    const response3 = await request(app).get('/customer');
+    const response3 = await request(app).get('/customer').send();
 
     const customers = response3.body.customers;
     const customer1 = response1.body;
@@ -85,6 +85,48 @@ describe('End 2 End test for customer', () => {
     expect(customers[1].address.city).toBe(customer2.address.city);
     expect(customers[1].address.number).toBe(customer2.address.number);
     expect(customers[1].address.zip).toBe(customer2.address.zip);
+
+    const responseXML = await request(app)
+      .get('/customer')
+      .set('Accept', 'application/xml')
+      .send();
+
+    expect(responseXML.status).toBe(200);
+    expect(responseXML.text).toContain(
+      '<?xml version="1.0" encoding="UTF-8"?>',
+    );
+    expect(responseXML.text).toContain('<customers>');
+    expect(responseXML.text).toContain('<customer>');
+    expect(responseXML.text).toContain(`<name>${customer1.name}</name>`);
+    expect(responseXML.text).toContain(`<address>`);
+    expect(responseXML.text).toContain(
+      `<street>${customer1.address.street}</street>`,
+    );
+    expect(responseXML.text).toContain(
+      `<number>${customer1.address.number}</number>`,
+    );
+    expect(responseXML.text).toContain(`<zip>${customer1.address.zip}</zip>`);
+    expect(responseXML.text).toContain(
+      `<city>${customer1.address.city}</city>`,
+    );
+    expect(responseXML.text).toContain(`</address>`);
+    expect(responseXML.text).toContain('</customer>');
+    expect(responseXML.text).toContain('<customer>');
+    expect(responseXML.text).toContain(`<name>${customer2.name}</name>`);
+    expect(responseXML.text).toContain(`<address>`);
+    expect(responseXML.text).toContain(
+      `<street>${customer2.address.street}</street>`,
+    );
+    expect(responseXML.text).toContain(
+      `<number>${customer2.address.number}</number>`,
+    );
+    expect(responseXML.text).toContain(`<zip>${customer2.address.zip}</zip>`);
+    expect(responseXML.text).toContain(
+      `<city>${customer2.address.city}</city>`,
+    );
+    expect(responseXML.text).toContain(`</address>`);
+    expect(responseXML.text).toContain('</customer>');
+    expect(responseXML.text).toContain('</customers>');
   });
 
   it('should find a customer', async () => {
